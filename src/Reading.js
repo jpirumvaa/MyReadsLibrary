@@ -32,6 +32,8 @@ class Reading extends Component {
                           
                           <div className="book-authors">
                           <div>Stutus: {shelf}</div>
+                          {/*Help me to know why this is not working while each book has authors */}
+                          <p>{book.authors[0]}</p>
                             
                             </div>
                         </div>
