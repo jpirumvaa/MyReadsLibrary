@@ -9,7 +9,7 @@ class SearchBook extends Component {
             query: ""
         }
     }
-    updateQuery(query){
+    updateQuery= (query)=>{
         this.setState(()=>({
             query: query
         }))

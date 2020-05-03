@@ -17,11 +17,13 @@ class BooksApp extends React.Component {
       books: [],
       shelf: 'None'
     }
-  }
-
-  handleShelfChange(event){
+  };
+  handleShelfChange= (event)=>{
+    {/*Here is the problem because the function isn't updating the state of shelf to match the value of selected shelf */};
+    console.log(event)
     this.setState(()=>({
       shelf: event.target.value
+      
     }))
   }
   componentDidMount(){
@@ -49,7 +51,6 @@ class BooksApp extends React.Component {
                 <Reading books={books} 
                 shelf={shelf}
                 onShelfChange={handleShelfChange}/>
-
                 <WantToRead books={books} 
                 shelf={shelf}
                 onShelfChange={handleShelfChange}/>/>
@@ -57,6 +58,7 @@ class BooksApp extends React.Component {
                 <Read books={books} 
                 shelf={shelf}
                 onShelfChange={handleShelfChange}/>
+                
               </div>
             </div>
             <div className="open-search">

@@ -32,7 +32,7 @@ class Reading extends Component {
                           
                           <div className="book-authors">
                           <div>Stutus: {shelf}</div>
-                            <p>{book.authors[0]}</p>
+                            
                             </div>
                         </div>
                       </li>
