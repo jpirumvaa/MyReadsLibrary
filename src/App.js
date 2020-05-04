@@ -4,9 +4,7 @@ import './App.css'
 import SearchBook from './SearchBook'
 import { Route } from 'react-router-dom'
 import * as BooksAPI from './BooksAPI'
-import Reading from './Reading'
-import Read from './Read'
-import WantToRead from './WantToRead'
+import Shelves from './Shelves'
 import {Link} from 'react-router-dom'
 
 class BooksApp extends React.Component {
@@ -15,17 +13,9 @@ class BooksApp extends React.Component {
   
     this.state = {
       books: [],
-      shelf: 'None'
     }
   };
-  handleShelfChange= (event)=>{
-    {/*Here is the problem because the function isn't updating the state of shelf to match the value of selected shelf */};
-    console.log(event)
-    this.setState(()=>({
-      shelf: event.target.value
-      
-    }))
-  }
+
   componentDidMount(){
     BooksAPI.getAll()
     .then((books)=>{
@@ -34,10 +24,19 @@ class BooksApp extends React.Component {
       }))
     })
   }
+  handleShelfChange = (changedBook, shelf) => {
+    BooksAPI.update(changedBook, shelf).then(response => {
+      changedBook.shelf = shelf;
+      this.setState(prevState => ({
+        books: prevState.books.filter(book => book.id !== changedBook.id).concat(changedBook)
+      }));
+    });
+  };
+
+  
 
   render() {
-    const {books, handleShelfChange, shelf}=this.state
-    
+    const {books}=this.state    
     return (
       <div className="app">
 
@@ -48,16 +47,8 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <Reading books={books} 
-                shelf={shelf}
-                onShelfChange={handleShelfChange}/>
-                <WantToRead books={books} 
-                shelf={shelf}
-                onShelfChange={handleShelfChange}/>/>
-
-                <Read books={books} 
-                shelf={shelf}
-                onShelfChange={handleShelfChange}/>
+                <Shelves books={books} 
+                handleShelfChange={this.handleShelfChange}/>
                 
               </div>
             </div>
@@ -70,7 +61,8 @@ class BooksApp extends React.Component {
           )}/>
 
           <Route path='/search' render={()=>(
-            <SearchBook books={books}/>
+            <SearchBook books={books}
+            handleShelfChange={this.handleShelfChange}/>
           )
             
           }/>
